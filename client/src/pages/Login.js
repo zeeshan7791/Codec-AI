@@ -36,11 +36,13 @@ const Login = () => {
       localStorage.setItem("authToken", true);
       navigate("/");
     } catch (err) {
+      isSetLoading(false);
       console.log(error);
       if (err.response.data.error) {
         setError(err.response.data.error);
       } else if (err.message) {
         setError(err.message);
+        toast.success(err.message);
       }
       setTimeout(() => {
         setError("");
@@ -50,48 +52,48 @@ const Login = () => {
 
   return (
     <>
-      {loading ? (
-        <Box sx={{ display: "flex" }}>
-          <CircularProgress />
-        </Box>
-      ) : (
-        <Box
-          width={isNotMobile ? "40%" : "80%"}
-          p={"2rem"}
-          m={"2rem auto"}
-          borderRadius={5}
-          sx={{ boxShadow: 5 }}
-          backgroundColor={theme.palette.background.alt}
-        >
-          <Collapse in={error}>
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {error}
-            </Alert>
-          </Collapse>
-          <form onSubmit={handleSubmit}>
-            <Typography variant="h3">Sign In</Typography>
-            <TextField
-              label="email"
-              type="email"
-              required
-              margin="normal"
-              fullWidth
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-            <TextField
-              label="password"
-              type="password"
-              required
-              margin="normal"
-              fullWidth
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
+      <Box
+        width={isNotMobile ? "40%" : "80%"}
+        p={"2rem"}
+        m={"2rem auto"}
+        borderRadius={5}
+        sx={{ boxShadow: 5 }}
+        backgroundColor={theme.palette.background.alt}
+      >
+        <Collapse in={error}>
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        </Collapse>
+        <form onSubmit={handleSubmit}>
+          <Typography variant="h3">Sign In</Typography>
+          <TextField
+            label="email"
+            type="email"
+            required
+            margin="normal"
+            fullWidth
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+          <TextField
+            label="password"
+            type="password"
+            required
+            margin="normal"
+            fullWidth
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          {loading ? (
+            <div className="circularProgress">
+              <CircularProgress />
+            </div>
+          ) : (
             <Button
               type="submit"
               fullWidth
@@ -101,12 +103,12 @@ const Login = () => {
             >
               Sign In
             </Button>
-            <Typography mt={2}>
-              Dont have an account ? <Link to="/register">Please Register</Link>
-            </Typography>
-          </form>
-        </Box>
-      )}
+          )}
+          <Typography mt={2}>
+            Dont have an account ? <Link to="/register">Please Register</Link>
+          </Typography>
+        </form>
+      </Box>
     </>
   );
 };

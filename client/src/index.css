@@ -17,3 +17,8 @@ a {
 a:hover {
   color: black !important;
 }
+
+.circularProgress {
+  display: flex;
+  justify-content: center;
+}

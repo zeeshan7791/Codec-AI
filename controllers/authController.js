@@ -17,6 +17,7 @@ exports.registerController = async (req, res, next) => {
     // exisitng user
     const isExisitingEmail = await userModel.findOne({ email });
     if (isExisitingEmail) {
+      // this.sendToken("duplicate email entered", 500, res);
       return next(new errorResponse("Email already registered", 500));
     }
     const user = await userModel.create({ username, email, password });
@@ -37,7 +38,7 @@ exports.loginController = async (req, res, next) => {
     }
     const user = await userModel.findOne({ email });
     if (!user) {
-      return next(new errorResponse("invalid credentials", 404));
+      return next(new errorResponse("invalid credentials", 401));
     }
     const isMatchUser = await user.matchPassword(password);
     if (!isMatchUser) {
